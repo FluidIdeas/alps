@@ -45,10 +45,10 @@ def execute_script(script_path, params):
 		graceful_exit()
 
 def update_scripts(config):
-	execute_script(config['LIB'] + 'updatescripts.sh', [])
+	execute_script(config['LIB'] + 'updatescripts.sh', list())
 
 def self_update(config):
-	execute_script(config['LIB'] + 'selfupdate.sh', [])
+	execute_script(config['LIB'] + 'selfupdate.sh', list())
 
 def url_install(url, config):
 	execute_script(config['LIB'] + 'urlinstall.sh', [url])
