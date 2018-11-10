@@ -19,7 +19,7 @@ def dependencies(pkg_name, dependency_type, config):
 	except FileNotFoundError:
 		print()
 		parts = pkg_name.split('/')
-		print('Not able to find buildscript for ' + parts[len(parts) - 1])
+		print('Not able to find buildscript for ' + parts[len(parts) - 1].replace('.sh', ''))
 		graceful_exit()
 
 def required_deps(pkg_name, config):
