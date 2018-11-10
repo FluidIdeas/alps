@@ -11,6 +11,7 @@ import shlex
 import deps
 import console
 import os
+import misc
 
 def install_pkg(pkg_name, config):
 	try:
@@ -38,26 +39,31 @@ def install_pkgs(pkg_names, config):
 	except KeyboardInterrupt:
 		graceful_exit()
 
-def execute_script(script_path, params):
+def execute_script(script_path, params=None):
 	try:
-		subprocess.call(shlex.split(script_path).extend(params));
+		if params != None:
+			subprocess.call(shlex.split(script_path).extend(params))
+		else:
+			subprocess.call(shlex.split(script_path))
 	except KeyboardInterrupt:
 		graceful_exit()
 
 def update_scripts(config):
-	execute_script(config['LIB'] + 'updatescripts.sh', list())
+	execute_script(config['LIB'] + 'updatescripts.sh')
 
 def self_update(config):
-	execute_script(config['LIB'] + 'selfupdate.sh', list())
+	execute_script(config['LIB'] + 'selfupdate.sh')
 
 def url_install(url, config):
-	execute_script(config['LIB'] + 'urlinstall.sh', [url])
+	params = list()
+	params.append
+	execute_script(config['LIB'] + 'urlinstall.sh', misc.list_for_item(url))
 
 def src_install(tarball_path, config):
-	execute_script(config['LIB'] + 'srcinstall.sh', [tarball_path])
+	execute_script(config['LIB'] + 'srcinstall.sh', misc.list_for_item(tarball_path))
 
 def list_installed(config):
-	execute_script(config['LIB'] + 'listinstalled.sh', config)
+	execute_script(config['LIB'] + 'listinstalled.sh')
 
 def get_updates(config):
 	updateable = list()

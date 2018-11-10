@@ -21,3 +21,9 @@ def graceful_exit():
 	print('Exiting...')
 	print('')
 	exit()
+
+def list_for_item(item):
+	lst = list()
+	lst.append(item)
+	return lst
+
