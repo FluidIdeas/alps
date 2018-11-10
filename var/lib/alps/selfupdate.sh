@@ -16,8 +16,6 @@ DIRECTORY=$(tar tf $TARBALL | cut -d/ -f1 | uniq)
 tar xf $TARBALL
 pushd $DIRECTORY &> /dev/null
 rm etc/alps/{installed-list,versions}
-rm -rf README.md
-rm -rf LICENSE
 sudo cp -rf * /
 sudo chmod a+x /var/lib/alps/*.sh
 sudo chmod a+x /usr/bin/alps
