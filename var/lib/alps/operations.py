@@ -26,11 +26,14 @@ def install_pkg(pkg_name, config):
 	except KeyboardInterrupt:
 		graceful_exit()
 
-def install_pkgs(pkg_names, config):
+def install_pkgs(pkg_names, opts, config):
 	try:
 		dep_chain = deps.dep_chain_status(pkg_names, False, config)
 		console.print_status(dep_chain)
-		response = console.prompt_choice('Are you sure you want to install these packages?', ['y', 'n'], 'y')
+		if not ('-ni' in opts or '--no-interactive' in opts):
+			response = console.prompt_choice('Are you sure you want to install these packages?', ['y', 'n'], 'y')
+		else:
+			response = 'y'
 		if response == 'y':
 			for (pkg, status) in dep_chain.items():
 				if not status:
@@ -90,12 +93,12 @@ def load_pkg_versions(config):
 def update(config):
 	pass
 
-def run_cmd(cmd, args, config):
+def run_cmd(cmd, params_and_opts, config):
 	if cmd == 'install':
-		if len(args) < 3:
+		if len(params_and_opts[0]) < 3:
 			console.install_not_enough_args_err_msg()
 			graceful_exit()
-		install_pkgs(args[2:], config)
+		install_pkgs(params_and_opts[0][2:], params_and_opts[1], config)
 	elif cmd == 'updatescripts':
 		update_scripts(config)
 	elif cmd == 'selfupdate':

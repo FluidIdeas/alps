@@ -14,6 +14,7 @@ from console import print_status
 from console import prompt_choice
 from console import menu
 import operations
+import misc
 
 try:
 	config_path = '/etc/alps/alps.conf'
@@ -22,7 +23,9 @@ try:
 	arg_count = len(sys.argv)
 	cmd = sys.argv[1]
 
-	operations.run_cmd(cmd, sys.argv, config)
+	params_and_opts = misc.params_and_opts(sys.argv)
+
+	operations.run_cmd(cmd, params_and_opts, config)
 except KeyboardInterrupt:
 	print('')
 	print('Exiting...')
