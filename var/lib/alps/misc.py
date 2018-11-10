@@ -31,7 +31,7 @@ def params_and_opts(cmdline_args):
 	return_value = (list(), list())
 	for arg in cmdline_args:
 		if arg.startswith('-'):
-			return_value[0].append(arg)
-		else:
 			return_value[1].append(arg)
+		else:
+			return_value[0].append(arg)
 	return return_value

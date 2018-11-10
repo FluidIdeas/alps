@@ -21,10 +21,12 @@ try:
 	config = load_config(config_path)
 
 	arg_count = len(sys.argv)
-	cmd = sys.argv[1]
 
 	params_and_opts = misc.params_and_opts(sys.argv)
+	print(params_and_opts[0])
+	print(params_and_opts[1])
 
+	cmd = params_and_opts[0][1]
 	operations.run_cmd(cmd, params_and_opts, config)
 except KeyboardInterrupt:
 	print('')
