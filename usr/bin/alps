@@ -1,0 +1,29 @@
+#!/usr/bin/env python3
+
+import sys
+sys.path.append('/var/lib/alps')
+from config import load_config
+from deps import required_deps
+from deps import recommended_deps
+from deps import optional_deps
+from deps import all_deps
+from deps import dep_chain
+from deps import load_installed
+from deps import dep_chain_status
+from console import print_status
+from console import prompt_choice
+from console import menu
+import operations
+
+try:
+	config_path = '/etc/alps/alps.conf'
+	config = load_config(config_path)
+
+	arg_count = len(sys.argv)
+	cmd = sys.argv[1]
+
+	operations.run_cmd(cmd, sys.argv, config)
+except KeyboardInterrupt:
+	print('')
+	print('Exiting...')
+	print('')
