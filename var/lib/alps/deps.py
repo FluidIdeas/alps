@@ -4,16 +4,22 @@ import sys
 sys.path.append('/var/lib/alps')
 from misc import script_path
 from misc import append_unique
+from misc import graceful_exit
 
 def dependencies(pkg_name, dependency_type, config):
-	with open(pkg_name) as f:
-		lines = f.readlines()
-	deps = list()
-	for line in lines:
-		if line != '':
-			if line.startswith(dependency_type):
-				deps.append(line.strip().replace(dependency_type, ''))
-	return deps
+	try:
+		with open(pkg_name) as f:
+			lines = f.readlines()
+		deps = list()
+		for line in lines:
+			if line != '':
+				if line.startswith(dependency_type):
+					deps.append(line.strip().replace(dependency_type, ''))
+		return deps
+	except FileNotFoundError:
+		print()
+		print('Not able to find buildscript for ' + pkg_name)
+		graceful_exit()
 
 def required_deps(pkg_name, config):
 	return dependencies(script_path(pkg_name, config), '#REQ:', config)
