@@ -15,9 +15,12 @@ import misc
 
 def install_pkg(pkg_name, config):
 	try:
-		dep_chain = deps.dep_chain_status([pkg_name], False, config)
+		dep_chain = deps.dep_chain_status(misc.list_for_item(pkg_name), False, config)
 		console.print_status(dep_chain)
-		response = console.prompt_choice('Are you sure you want to install these packages?', ['y', 'n'], 'y')
+		if not ('-ni' in opts or '--no-interactive' in opts):
+			response = console.prompt_choice('Are you sure you want to install these packages?', ['y', 'n'], 'y')
+		else:
+			response = 'y'
 		if response == 'y':
 			for (pkg, status) in dep_chain.items():
 				if not status:

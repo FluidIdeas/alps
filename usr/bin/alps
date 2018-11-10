@@ -20,8 +20,6 @@ try:
 	config_path = '/etc/alps/alps.conf'
 	config = load_config(config_path)
 
-	arg_count = len(sys.argv)
-
 	params_and_opts = misc.params_and_opts(sys.argv)
 
 	cmd = params_and_opts[0][1]
