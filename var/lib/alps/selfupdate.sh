@@ -2,7 +2,7 @@
 
 set -e
 
-URL="https://bitbucket.org/chandrakantsingh/alps/get/master.tar.bz2"
+URL="https://bitbucket.org/chandrakantsingh/alps-new/get/master.tar.bz2"
 TARBALL="master.tar.bz2"
 
 TEMPDIR=$(mktemp -d)
