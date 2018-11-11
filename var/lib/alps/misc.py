@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+import subprocess
+
 def script_path(script_name, config):
 	return config['SCRIPTS_DIR'] + '/' + script_name + '.sh'
 
