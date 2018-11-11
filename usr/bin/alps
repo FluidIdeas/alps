@@ -23,6 +23,8 @@ try:
 	params_and_opts = misc.params_and_opts(sys.argv)
 
 	cmd = params_and_opts[0][1]
+	print(sys.argv)
+	print(params_and_opts)
 	operations.run_cmd(cmd, params_and_opts, config)
 except KeyboardInterrupt:
 	print('')
