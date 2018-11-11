@@ -22,6 +22,11 @@ def concat_opts(opt_list, default, delim):
 def graceful_exit():
 	print('Exiting...')
 	print('')
+	exit(0)
+
+def error_exit():
+	print('Aborting...')
+	print('')
 	exit(1)
 
 def list_for_item(item):
@@ -44,5 +49,5 @@ def execute_cmd(cmd):
 	return_code = p.wait()
 	if return_code != 0:
 		print('Error occured in the execution of ' + (' ').join(cmd))
-		graceful_exit()
+		error_exit()
 

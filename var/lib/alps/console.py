@@ -5,6 +5,7 @@ sys.path.append('/var/lib/alps')
 from misc import script_path
 from misc import concat_opts
 from misc import graceful_exit
+from misc import error_exit
 
 def print_status(status_dict):
 	print('')
@@ -43,7 +44,7 @@ def prompt_choice(msg, options, default):
 		if response == '':
 			return default
 	except KeyboardInterrupt:
-		graceful_exit()
+		error_exit()
 
 def menu(choices, heading, default):
 	try:
@@ -62,9 +63,10 @@ def menu(choices, heading, default):
 		print('')
 		return prompt_choice('Choose an option', opts, default)
 	except KeyboardInterrupt:
-		graceful_exit()
+		error_exit()
 
 def install_not_enough_args_err_msg():
 	print()
 	print('Please provide package name for installation. Usage: alps install package name')
 	print()
+

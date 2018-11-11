@@ -4,7 +4,7 @@ import sys
 sys.path.append('/var/lib/alps')
 from misc import script_path
 from misc import append_unique
-from misc import graceful_exit
+from misc import error_exit
 
 def dependencies(pkg_name, dependency_type, config):
 	try:
@@ -20,7 +20,7 @@ def dependencies(pkg_name, dependency_type, config):
 		print()
 		parts = pkg_name.split('/')
 		print('Not able to find buildscript for ' + parts[len(parts) - 1].replace('.sh', ''))
-		graceful_exit()
+		error_exit()
 
 def required_deps(pkg_name, config):
 	return dependencies(script_path(pkg_name, config), '#REQ:', config)
