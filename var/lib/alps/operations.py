@@ -25,7 +25,7 @@ def install_pkg(pkg_name, config):
 			for (pkg, status) in dep_chain.items():
 				if not status:
 					begin_install(script_path(pkg, config))
-					subprocess.call(shlex.split(script_path(pkg, config)))
+					subprocess.Popen(script_path(pkg, config).split(), shell=True).communicate()
 	except KeyboardInterrupt:
 		graceful_exit()
 
@@ -41,16 +41,16 @@ def install_pkgs(pkg_names, opts, config):
 			for (pkg, status) in dep_chain.items():
 				if not status:
 					begin_install(script_path(pkg, config))
-					subprocess.call(shlex.split(script_path(pkg, config)))
+					subprocess.Popen(script_path(pkg, config).split(), shell=True).communicate()
 	except KeyboardInterrupt:
 		graceful_exit()
 
 def execute_script(script_path, params=None):
 	try:
 		if params != None:
-			subprocess.call(shlex.split(script_path).extend(params))
+			subprocess.Popen(script_path.split().extend(params), shell=True).communicate()
 		else:
-			subprocess.call(shlex.split(script_path))
+			subprocess.Popen(script_path.split(), shell=True).communicate()
 	except KeyboardInterrupt:
 		graceful_exit()
 
