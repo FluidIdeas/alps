@@ -7,6 +7,7 @@ from console import begin_install
 import subprocess
 from misc import script_path
 from misc import graceful_exit
+from misc import execute_cmd
 import shlex
 import deps
 import console
