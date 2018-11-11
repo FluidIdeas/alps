@@ -19,12 +19,12 @@ def concat_opts(opt_list, default, delim):
 		return_value = return_value + delim
 	return '(' + return_value[:-1] + ') :'
 
-def graceful_exit():
+def normal_exit():
 	print('Exiting...')
 	print('')
 	exit(0)
 
-def error_exit():
+def abnormal_exit():
 	print('Aborting...')
 	print('')
 	exit(1)
@@ -49,5 +49,5 @@ def execute_cmd(cmd):
 	return_code = p.wait()
 	if return_code != 0:
 		print('Error occured in the execution of ' + (' ').join(cmd))
-		error_exit()
+		abnormal_exit()
 

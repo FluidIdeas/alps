@@ -6,7 +6,7 @@ from misc import script_path
 from console import begin_install
 import subprocess
 from misc import script_path
-from misc import error_exit
+from misc import abnormal_exit
 from misc import execute_cmd
 import shlex
 import deps
@@ -28,7 +28,7 @@ def install_pkg(pkg_name, config):
 					begin_install(script_path(pkg, config))
 					execute_cmd(script_path(pkg, config).split())
 	except KeyboardInterrupt:
-		error_exit()
+		abnormal_exit()
 
 def install_pkgs(pkg_names, opts, config):
 	try:
@@ -44,7 +44,7 @@ def install_pkgs(pkg_names, opts, config):
 					begin_install(script_path(pkg, config))
 					execute_cmd(script_path(pkg, config).split())
 	except KeyboardInterrupt:
-		error_exit()
+		abnormal_exit()
 
 def execute_script(script_path, params=None):
 	try:
@@ -53,7 +53,7 @@ def execute_script(script_path, params=None):
 		else:
 			execute_cmd(script_path.split())
 	except KeyboardInterrupt:
-		error_exit()
+		abnormal_exit()
 
 def update_scripts(config):
 	execute_script(config['LIB'] + 'updatescripts.sh')
@@ -101,7 +101,7 @@ def run_cmd(cmd, params_and_opts, config):
 	if cmd == 'install':
 		if len(params_and_opts[0]) < 3:
 			console.install_not_enough_args_err_msg()
-			error_exit()
+			abnormal_exit()
 		install_pkgs(params_and_opts[0][2:], params_and_opts[1], config)
 	elif cmd == 'updatescripts':
 		update_scripts(config)

@@ -25,5 +25,5 @@ try:
 	cmd = params_and_opts[0][1]
 	operations.run_cmd(cmd, params_and_opts, config)
 except KeyboardInterrupt:
-	misc.error_exit()
+	misc.abnormal_exit()
 

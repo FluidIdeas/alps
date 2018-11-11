@@ -4,8 +4,8 @@ import sys
 sys.path.append('/var/lib/alps')
 from misc import script_path
 from misc import concat_opts
-from misc import graceful_exit
-from misc import error_exit
+from misc import normal_exit
+from misc import abnormal_exit
 
 def print_status(status_dict):
 	print('')
@@ -19,7 +19,7 @@ def print_status(status_dict):
 	if len(not_installed) == 0:
 		print('Package(s) already installed.')
 		print()
-		graceful_exit()
+		normal_exit()
 	print('The following packages are already installed, not installing again:')
 	print('')
 	print(', '.join(installed))
@@ -44,7 +44,7 @@ def prompt_choice(msg, options, default):
 		if response == '':
 			return default
 	except KeyboardInterrupt:
-		error_exit()
+		abnormal_exit()
 
 def menu(choices, heading, default):
 	try:
@@ -63,7 +63,7 @@ def menu(choices, heading, default):
 		print('')
 		return prompt_choice('Choose an option', opts, default)
 	except KeyboardInterrupt:
-		error_exit()
+		abnormal_exit()
 
 def install_not_enough_args_err_msg():
 	print()
