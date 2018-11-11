@@ -2,7 +2,9 @@
 
 set -e
 
-VERSION="$1"
+. /etc/lsb-release
+
+VERSION="$DISTRIB_RELEASE"
 BASEURL="https://bitbucket.org/chandrakantsingh/aryalinux/get"
 TARBALL="$VERSION.tar.bz2"
 SCRIPTSDIR="/var/cache/alps/scripts/"
