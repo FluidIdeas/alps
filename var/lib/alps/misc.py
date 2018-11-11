@@ -20,7 +20,7 @@ def concat_opts(opt_list, default, delim):
 def graceful_exit():
 	print('Exiting...')
 	print('')
-	exit()
+	exit(1)
 
 def list_for_item(item):
 	lst = list()
@@ -35,3 +35,12 @@ def params_and_opts(cmdline_args):
 		else:
 			return_value[0].append(arg)
 	return return_value
+
+def execute_cmd(cmd):
+	p = subprocess.Popen(cmd, shell=True)
+	p.communicate()
+	return_code = p.wait()
+	if return_code != 0:
+		print('Error occured in the execution of ' + (' ').join(cmd))
+		graceful_exit()
+

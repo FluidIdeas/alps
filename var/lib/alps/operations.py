@@ -25,7 +25,7 @@ def install_pkg(pkg_name, config):
 			for (pkg, status) in dep_chain.items():
 				if not status:
 					begin_install(script_path(pkg, config))
-					subprocess.Popen(script_path(pkg, config).split(), shell=True).communicate()
+					execute_cmd(script_path(pkg, config).split())
 	except KeyboardInterrupt:
 		graceful_exit()
 
@@ -41,16 +41,16 @@ def install_pkgs(pkg_names, opts, config):
 			for (pkg, status) in dep_chain.items():
 				if not status:
 					begin_install(script_path(pkg, config))
-					subprocess.Popen(script_path(pkg, config).split(), shell=True).communicate()
+					execute_cmd(script_path(pkg, config).split())
 	except KeyboardInterrupt:
 		graceful_exit()
 
 def execute_script(script_path, params=None):
 	try:
 		if params != None:
-			subprocess.Popen(script_path.split().extend(params), shell=True).communicate()
+			execute_cmd(script_path.split().extend(params))
 		else:
-			subprocess.Popen(script_path.split(), shell=True).communicate()
+			execute_cmd(script_path.split())
 	except KeyboardInterrupt:
 		graceful_exit()
 
