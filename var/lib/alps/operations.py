@@ -70,7 +70,12 @@ def src_install(tarball_path, config):
 	execute_script(config['LIB'] + 'srcinstall.sh', misc.list_for_item(tarball_path))
 
 def list_installed(config):
-	execute_script(config['LIB'] + 'listinstalled.sh')
+	pkgs = load_installed_pkgs(config)
+	pkg_versions = load_installed_versions(config)
+	pkg_names = list()
+	for (name, date) as pkgs.items():
+		pkg_names.append(name + '(' + date + ', ' + pkg_versions[name] + ')'))
+	print ', '.join(pkg_names)
 
 def get_updates(config):
 	updateable = list()
@@ -91,8 +96,23 @@ def script_version(script_name):
 			if line.startswith('VERSION='):
 				return line[8:].strip()
 
-def load_pkg_versions(config):
-	pass
+def load_installed_versions(config):
+	with open(config['VERSION_LIST']) as f:
+		lines = f.readlines()
+	versions = dict()
+	for line in lines:
+		parts = line.split(':')
+		versions[parts[0]] = parts[1]
+	return versions
+
+def load_installed_packages(config):
+	with open(config['INSTALLED_LIST']) as f:
+		lines = f.readlines()
+	pkgs = dict()
+	for line in lines:
+		parts = line.split('=')
+		pkgs[parts[0]] = pkgs[1][1:]
+	return pkgs
 
 def update(config):
 	pass
@@ -107,4 +127,7 @@ def run_cmd(cmd, params_and_opts, config):
 		update_scripts(config)
 	elif cmd == 'selfupdate':
 		self_update(config)
+	elif cmd == 'listinstalled':
+		list_installed(config)
+
 
