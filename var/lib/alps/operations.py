@@ -113,7 +113,10 @@ def load_installed_pkgs(config):
 	pkgs = dict()
 	for line in lines:
 		parts = line.split('=')
-		pkgs[parts[0]] = pkgs[1][1:]
+		try:
+			pkgs[parts[0]] = pkgs[1][1:]
+		except KeyError:
+			pass
 	return pkgs
 
 def update(config):
