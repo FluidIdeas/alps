@@ -70,13 +70,21 @@ def src_install(tarball_path, config):
 	execute_script(config['LIB'] + 'srcinstall.sh', misc.list_for_item(tarball_path))
 
 def list_installed(config):
+	print()
+	heading = '%-30s%-15s%-30s' % ('Package Name', 'Version', 'Installation Date')
+	print(heading)
 	pkgs = load_installed_pkgs(config)
 	pkg_versions = load_installed_versions(config)
 	pkg_names = list()
 	for (name, date) in pkgs.items():
-		pkg_names.append(name + '(' + date + ', ' + pkg_versions[name] + ')')
+		try:
+			# pkg_names.append(name + ' (' + date + ', ' + pkg_versions[name] + ') ')
+			line = '%-30s%-15s%-30s' % (name, pkg_versions[name], date)
+			pkg_names.append(line)
+		except KeyError:
+			pass
 	print()
-	print(', '.join(pkg_names))
+	print('\n'.join(pkg_names))
 	print()
 
 def get_updates(config):
@@ -104,7 +112,10 @@ def load_installed_versions(config):
 	versions = dict()
 	for line in lines:
 		parts = line.split(':')
-		versions[parts[0]] = parts[1]
+		try:
+			versions[parts[0]] = parts[1].strip()
+		except KeyError:
+			pass
 	return versions
 
 def load_installed_pkgs(config):
@@ -114,7 +125,7 @@ def load_installed_pkgs(config):
 	for line in lines:
 		parts = line.split('=')
 		try:
-			pkgs[parts[0]] = pkgs[1][1:]
+			pkgs[parts[0]] = parts[1][1:].strip()
 		except KeyError:
 			pass
 	return pkgs
