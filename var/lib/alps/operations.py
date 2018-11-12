@@ -75,7 +75,9 @@ def list_installed(config):
 	pkg_names = list()
 	for (name, date) in pkgs.items():
 		pkg_names.append(name + '(' + date + ', ' + pkg_versions[name] + ')')
-	print ', '.join(pkg_names)
+	print()
+	print(', '.join(pkg_names))
+	print()
 
 def get_updates(config):
 	updateable = list()
