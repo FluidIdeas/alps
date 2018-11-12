@@ -107,7 +107,7 @@ def load_installed_versions(config):
 		versions[parts[0]] = parts[1]
 	return versions
 
-def load_installed_packages(config):
+def load_installed_pkgs(config):
 	with open(config['INSTALLED_LIST']) as f:
 		lines = f.readlines()
 	pkgs = dict()
