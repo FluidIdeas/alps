@@ -20,13 +20,15 @@ def print_status(status_dict):
 		print('Package(s) already installed.')
 		print()
 		normal_exit()
-	print('The following packages are already installed, not installing again:')
-	print('')
-	print(', '.join(installed))
-	print('')
-	print('The following packages would be installed:')
-	print('')
-	print(', '.join(not_installed))
+	if len(installed) > 0:
+		print('The following packages are already installed, not installing again:')
+		print('')
+		print(', '.join(installed))
+		print('')
+	if len(installed) > 0:
+		print('The following packages would be installed:')
+		print('')
+		print(', '.join(not_installed))
 
 def begin_install(script_name):
 	print('')
