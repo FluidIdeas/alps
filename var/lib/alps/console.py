@@ -25,7 +25,7 @@ def print_status(status_dict):
 		print('')
 		print(', '.join(installed))
 		print('')
-	if len(installed) > 0:
+	if len(not_installed) > 0:
 		print('The following packages would be installed:')
 		print('')
 		print(', '.join(not_installed))
