@@ -1,0 +1,85 @@
+function unzip_dirname()
+{
+	dirname="$2-extracted"
+	unzip -o -q $1 -d $dirname
+	if [ "$(ls $dirname | wc -w)" == "1" ]; then
+		echo "$(ls $dirname)"
+	else
+		echo "$dirname"
+	fi
+	rm -rf $dirname
+}
+
+function unzip_file()
+{
+	dir_name=$(unzip_dirname $1 $2)
+	echo $dir_name
+	if [ `echo $dir_name | grep "extracted$"` ]
+	then
+		echo "Create and extract..."
+		mkdir $dir_name
+		cp $1 $dir_name
+		cd $dir_name
+		unzip $1
+		cd ..
+	else
+		echo "Just Extract..."
+		unzip $1
+	fi
+}
+
+function register_installed()
+{
+	packagename="$1"
+	version="$2"
+	installed_list="$3"
+	if [ "$packagename" == "sudo" ]
+	then
+		echo "$packagename=>`date`" >> $installed_list
+		echo "$packagename:$version" >> /etc/alps/versions
+	else
+		echo "$packagename=>`date`" | sudo tee -a $installed_list
+		echo "$packagename:$version" | sudo tee -a /etc/alps/versions
+	fi
+}
+
+function cleanup()
+{
+	packagename="$1"
+	directory="$2"
+	if [ "$packagename" == "sudo" ]
+	then
+		rm -rf "$directory"
+	else
+		sudo rm -rf "$directory"
+	fi
+}
+
+as_root()
+{
+	if   [ $EUID = 0 ];        then $*
+	elif [ -x /usr/bin/sudo ]; then sudo $*
+	else                            su -c \\"$*\\"
+	fi
+}
+
+function makepkg()
+{
+        NAME="$1"
+        VERSION="$2"
+        OPTION="$3"
+        if [ $OPTION == "1" ]; then
+                if [ ! -d "/var/cache/alps/binaries" ]; then
+                        sudo mkdir -pv /var/cache/alps/binaries
+                        sudo chmod a+rw /var/cache/alps/binaries
+                fi
+                INSTALL_DIR=/var/cache/alps/binaries/$NAME-$VERSION-$(uname -m)
+                make DESTDIR=${INSTALL_DIR} install
+                pushd ${INSTALL_DIR}
+                tar -cJvf ${INSTALL_DIR}/../$NAME-$VERSION-$(uname -m).tar.xz *
+                popd
+                sudo rm -r ${INSTALL_DIR}
+
+        fi
+}
+
