@@ -45,6 +45,7 @@ def prompt_choice(msg, options, default):
 		response = prompt(msg + ' ' + suffix + ' ')
 		if response == '':
 			return default
+		return response
 	except KeyboardInterrupt:
 		abnormal_exit()
 
