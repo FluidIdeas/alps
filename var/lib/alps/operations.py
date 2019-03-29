@@ -13,6 +13,7 @@ import deps
 import console
 import os
 import misc
+import json
 
 def install_pkg(pkg_name, config):
 	try:
@@ -135,28 +136,69 @@ def update(config):
 	pass
 
 def generate_package_list():
+	print('Generating package.json...')
+	package_installed_dates_and_versions = load_installed_date_and_version()
 	packages_list_file = '/var/cache/alps/packages.json'
 	packages = list()
-	try:
-		with open(packages_list_file, 'r') as fp
-			packages = json.load(fp)
-	except IOError:
-		pass
 
 	scripts_dir = '/var/cache/alps/scripts'
 	scripts = os.listdir(scripts_dir)
 	for script in scripts:
 		with open(scripts_dir + '/' + script) as fp:
 			package = parse_package(fp)
-			update_package_details(package, packages)
-	with open(packages_list_file, 'w') as fp:
-		fp.write(json.dumps(packages))
+			if 'name' in package and package['name'] in package_installed_dates_and_versions:
+				package['version'] = package_installed_dates_and_versions[package['name']]['installed_version']
+				package['installed_date'] = package_installed_dates_and_versions[package['name']]['installed_date']
+				package['status'] = package_installed_dates_and_versions[package['name']]['status']
+		packages.append(package)
+	with open('/tmp/pkgs.json', 'w') as fp:
+		fp.write(json.dumps(packages, sort_keys=True, indent=4, separators=(',', ': ')))
+	process = subprocess.Popen(('sudo cp /tmp/pkgs.json ' + packages_list_file).split())
+	process.communicate()
 
-def update_package_details(package, packages):
-	pass
+def load_installed_date_and_version():
+	with open('/etc/alps/installed-list', 'r') as fp:
+		installed_list = fp.read().splitlines()
+	with open('/etc/alps/versions', 'r') as fp:
+		installed_versions = fp.read().splitlines()
+	installed_packages = dict()
+	installed_package_versions = dict()
+	packages = dict()
+	for installed_package in installed_list:
+		name = installed_package[0:installed_package.index('=>')]
+		date = installed_package[installed_package.index('=>') + 2:]
+		installed_packages[name] = date
+	for package_version in installed_versions:
+		name = package_version[0:package_version.index(':')]
+		version = package_version[package_version.index(':') + 1:]
+		installed_package_versions[name] = version
+	for name in installed_packages.keys():
+		version = None
+		date = None
+		status = False
+		if name in installed_packages:
+			date = installed_packages[name]
+			status = True
+			if name in installed_package_versions:
+				version = installed_package_versions[name]
+		packages[name] = {'installed_date': date, 'installed_version': version, 'status': status}
+	return packages
 
 def parse_package(package_file):
-	return None
+	package = dict()
+	lines = package_file.read().splitlines()
+	for line in lines:
+		if 'NAME=' in line and line.index('NAME=') == 0:
+			package['name'] = line.replace('NAME=', '').replace('"', '')
+		elif 'VERSION=' in line and line.index('VERSION=') == 0:
+			package['available_version'] = line.replace('VERSION=', '').replace('"', '')
+		elif 'DESCRIPTION=' in line and line.index('DESCRIPTION=') == 0:
+			package['description'] = line.replace('DESCRIPTION=', '').replace('"', '')
+		if 'name' in package and 'available_version' in package and 'description' in package:
+			break
+	package['script'] = package_file.name
+	package['status'] = False
+	return package
 
 def run_cmd(cmd, params_and_opts, config):
 	if cmd == 'install':
