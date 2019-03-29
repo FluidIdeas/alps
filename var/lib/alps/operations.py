@@ -57,6 +57,7 @@ def execute_script(script_path, params=None):
 
 def update_scripts(config):
 	execute_script(config['LIB'] + 'updatescripts.sh')
+	generate_package_list()
 
 def self_update(config):
 	execute_script(config['LIB'] + 'selfupdate.sh')
@@ -132,6 +133,30 @@ def load_installed_pkgs(config):
 
 def update(config):
 	pass
+
+def generate_package_list():
+	packages_list_file = '/var/cache/alps/packages.json'
+	packages = list()
+	try:
+		with open(packages_list_file, 'r') as fp
+			packages = json.load(fp)
+	except IOError:
+		pass
+
+	scripts_dir = '/var/cache/alps/scripts'
+	scripts = os.listdir(scripts_dir)
+	for script in scripts:
+		with open(scripts_dir + '/' + script) as fp:
+			package = parse_package(fp)
+			update_package_details(package, packages)
+	with open(packages_list_file, 'w') as fp:
+		fp.write(json.dumps(packages))
+
+def update_package_details(package, packages):
+	pass
+
+def parse_package(package_file):
+	return None
 
 def run_cmd(cmd, params_and_opts, config):
 	if cmd == 'install':
