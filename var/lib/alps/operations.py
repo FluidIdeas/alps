@@ -203,15 +203,17 @@ def parse_package(package_file):
 	package['status'] = False
 	return package
 
-def src_install(config, src_path):
-	process = subprocess.Popen([config['LIB'] + 'srcinstall.sh', src_path], shell=True)
-	process.communicate()
-	process.wait()
+def src_install(config, paths):
+	for path in paths:
+		process = subprocess.Popen(config['LIB'] + 'srcinstall.sh ' + path, shell=True)
+		process.communicate()
+		process.wait()
 
-def url_install(config, url):
-	process = subprocess.Popen([config['LIB'] + 'urlinstall.sh', src_path], shell=True)
-	process.communicate()
-	process.wait()
+def url_install(config, urls):
+	for url in urls:
+		process = subprocess.Popen(config['LIB'] + 'urlinstall.sh ' + url, shell=True)
+		process.communicate()
+		process.wait()
 
 def update(config, packages):
 	# To update check what is the installed version
