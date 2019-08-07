@@ -223,6 +223,7 @@ def update(config, packages):
 				package_list = json.loads(fp.read())
 		except:
 			print('Please run: alps updatescripts before running an update.')
+			abnormal_exit()
 		to_be_updated = list()
 		for pkg in package_list:
 			if pkg['name'] in packages and pkg['status'] == True and not pkg['available_version'] == pkg['version']:
@@ -247,6 +248,7 @@ def update_all(config):
 				package_list = json.loads(fp.read())
 		except:
 			print('Please run: alps updatescripts before running an update.')
+			abnormal_exit()
 		to_be_updated = list()
 		for pkg in package_list:
 				if pkg['status'] == True and not pkg['available_version'] == pkg['version']:
