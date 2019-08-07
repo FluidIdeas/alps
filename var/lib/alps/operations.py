@@ -203,12 +203,12 @@ def parse_package(package_file):
 	package['status'] = False
 	return package
 
-def src_install(src_path):
+def src_install(config, src_path):
 	process = subprocess.Popen([config['LIB'] + 'srcinstall.sh', src_path], shell=True)
 	process.communicate()
 	process.wait()
 
-def url_install(url):
+def url_install(config, url):
 	process = subprocess.Popen([config['LIB'] + 'urlinstall.sh', src_path], shell=True)
 	process.communicate()
 	process.wait()
@@ -283,9 +283,9 @@ def run_cmd(cmd, params_and_opts, config):
 	elif cmd == 'listinstalled':
 		list_installed(config)
 	elif cmd == 'urlinstall':
-		url_install(params_and_opts[0][2:])
+		url_install(config, params_and_opts[0][2:])
 	elif cmd == 'srcinstall':
-		src_install(params_and_opts[0][2:])
+		src_install(config, params_and_opts[0][2:])
 	elif cmd == 'update':
 		update(config, params_and_opts[0][2:])
 	elif cmd == 'updateall':
