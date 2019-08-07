@@ -61,7 +61,6 @@ Flags:
 
 Commands:
         install         Install packages alongwith dependencies
-        update          Update packages
         srcinstall      Try to install the package, given the path to source tarball
         urlinstall      Try to install the package, given the URL to the source tarball
         selfupdate      Update alps
@@ -69,7 +68,6 @@ Commands:
 
 Examples:
        alps install rhythmbox vlc
-       alps update curl
        alps srcinstall /home/foo/baz.tar.bz2
        alps urlinstall http://foo.com/baz.tar.gz
        alps selfupdate
