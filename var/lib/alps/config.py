@@ -12,3 +12,8 @@ def load_config(config_filename):
 		config[parts[0].strip()] = parts[1].strip()
 	return config
 
+def dump_config(config, config_filename):
+	with open(config_filename) as f:
+		for key, value in config.items():
+			f.write(key + '=' + value + '\n')
+

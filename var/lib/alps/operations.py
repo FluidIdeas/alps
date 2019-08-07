@@ -14,6 +14,9 @@ import console
 import os
 import misc
 import json
+from config import dump_config
+
+config_path = '/etc/alps/alps.conf'
 
 def install_pkg(pkg_name, config):
 	try:
@@ -201,14 +204,24 @@ def parse_package(package_file):
 	return package
 
 def src_install(src_path):
-	process = subprocess.Popen(['/var/lib/alps/srcinstall.sh', src_path], shell=True)
+	process = subprocess.Popen([config['LIB'] + 'srcinstall.sh', src_path], shell=True)
 	process.communicate()
 	process.wait()
 
 def url_install(url):
-	process = subprocess.Popen(['/var/lib/alps/urlinstall.sh', src_path], shell=True)
+	process = subprocess.Popen([config['LIB'] + 'urlinstall.sh', src_path], shell=True)
 	process.communicate()
 	process.wait()
+
+def update(packages):
+	pass
+
+def update_all():
+	pass
+
+def set_repo_version(config, version):
+	config['REPO_VERSION'] = version
+	dump_config(config, config_path)
 
 def run_cmd(cmd, params_and_opts, config):
 	if cmd == 'install':
@@ -226,8 +239,15 @@ def run_cmd(cmd, params_and_opts, config):
 		url_install(params_and_opts[0][2:])
 	elif cmd == 'srcinstall':
 		src_install(params_and_opts[0][2:])
+	elif cmd == 'update':
+		update(params_and_opts[0][2:])
+	elif cmd == 'updateall':
+		update_all()
+	elif cmd == 'repoversion':
+		set_repo_version(config, params_and_opts[0][2])
 	elif cmd == 'help':
 		misc.print_help()
 	else:
 		print('Unrecognized command: ' + cmd)
 		misc.print_help()
+

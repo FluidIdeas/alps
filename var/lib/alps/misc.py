@@ -67,10 +67,13 @@ Commands:
         selfupdate      Update alps
         updatescripts   Update buildscripts
         listinstalled   List the packages that are installed with version and date/time of installation
+        repoversion     Set the version of repository from where scripts would be downloaded
+                        By default the latest version of repository is used
 
 Examples:
        alps install rhythmbox vlc
        alps srcinstall /home/foo/baz.tar.bz2
        alps urlinstall http://foo.com/baz.tar.gz
        alps selfupdate
-       alps updatescripts''')
+       alps updatescripts
+       alps repoversion 2.0''')
