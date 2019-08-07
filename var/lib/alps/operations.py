@@ -223,10 +223,9 @@ def update(config, packages):
 	except:
 		print('Please run: alps updatescripts before running an update.')
 	to_be_updated = list()
-	for package in packages:
-		for pkg in package_list:
-			if pkg['name'] == package and pkg['status'] == True and not pkg['available_version'] == pkg['version']:
-				to_be_updated.append(package)
+	for pkg in package_list:
+		if pkg['name'] in packages and pkg['status'] == True and not pkg['available_version'] == pkg['version']:
+			to_be_updated.append(pkg['name'])
 
 	print('The following packages would be updated: ' + ' '.join(to_be_updated))
 	response = console.prompt_choice('Are you sure you want to install these packages?', ['y', 'n'], 'y')
@@ -247,7 +246,7 @@ def update_all(config):
 	to_be_updated = list()
 	for pkg in package_list:
 			if pkg['status'] == True and not pkg['available_version'] == pkg['version']:
-				to_be_updated.append(package)
+				to_be_updated.append(pkg['name'])
 
 	print('The following packages would be updated: ' + ' '.join(to_be_updated))
 	response = console.prompt_choice('Are you sure you want to install these packages?', ['y', 'n'], 'y')
