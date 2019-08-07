@@ -226,7 +226,7 @@ def update(config, packages):
 	to_be_updated = list()
 	for package in packages:
 		for pkg in package_list:
-			if pkg['name'] = package and pkg['status'] = True and not pkg['available_version'] = pkg['version']:
+			if pkg['name'] == package and pkg['status'] == True and not pkg['available_version'] == pkg['version']:
 				to_be_updated.append(package)
 
 	print('The following packages would be updated: ' + ' '.join(to_be_updated))
