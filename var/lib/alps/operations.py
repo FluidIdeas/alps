@@ -8,7 +8,6 @@ import subprocess
 from misc import script_path
 from misc import abnormal_exit
 from misc import execute_cmd
-from misc import read_versions
 import shlex
 import deps
 import console
@@ -247,7 +246,7 @@ def update_all(config):
 		print('Please run: alps updatescripts before running an update.')
 	to_be_updated = list()
 	for pkg in package_list:
-			if pkg['status'] = True and not pkg['available_version'] = pkg['version']:
+			if pkg['status'] == True and not pkg['available_version'] == pkg['version']:
 				to_be_updated.append(package)
 
 	print('The following packages would be updated: ' + ' '.join(to_be_updated))
