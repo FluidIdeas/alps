@@ -218,42 +218,48 @@ def update(config, packages):
 	# And what is the available version
 	# If they do not match then do installation.
 	try:
-		with open(config['PACKAGE_LIST']) as fp:
-			package_list = json.loads(fp.read())
-	except:
-		print('Please run: alps updatescripts before running an update.')
-	to_be_updated = list()
-	for pkg in package_list:
-		if pkg['name'] in packages and pkg['status'] == True and not pkg['available_version'] == pkg['version']:
-			to_be_updated.append(pkg['name'])
+		try:
+			with open(config['PACKAGE_LIST']) as fp:
+				package_list = json.loads(fp.read())
+		except:
+			print('Please run: alps updatescripts before running an update.')
+		to_be_updated = list()
+		for pkg in package_list:
+			if pkg['name'] in packages and pkg['status'] == True and not pkg['available_version'] == pkg['version']:
+				to_be_updated.append(pkg['name'])
 
-	print('The following packages would be updated: ' + ' '.join(to_be_updated))
-	response = console.prompt_choice('Are you sure you want to install these packages?', ['y', 'n'], 'y')
-	if response == 'y':
-		for pkg in to_be_updated:
-			begin_install(script_path(pkg, config))
-			execute_cmd(script_path(pkg, config).split())
+		print('The following packages would be updated: ' + ' '.join(to_be_updated))
+		response = console.prompt_choice('Are you sure you want to install these packages?', ['y', 'n'], 'y')
+		if response == 'y':
+			for pkg in to_be_updated:
+				begin_install(script_path(pkg, config))
+				execute_cmd(script_path(pkg, config).split())
+	except KeyboardInterrupt:
+		abnormal_exit()
 
 def update_all(config):
 	# To update check what is the installed version
 	# And what is the available version
 	# If they do not match then do installation.
 	try:
-		with open(config['PACKAGE_LIST']) as fp:
-			package_list = json.loads(fp.read())
-	except:
-		print('Please run: alps updatescripts before running an update.')
-	to_be_updated = list()
-	for pkg in package_list:
-			if pkg['status'] == True and not pkg['available_version'] == pkg['version']:
-				to_be_updated.append(pkg['name'])
+		try:
+			with open(config['PACKAGE_LIST']) as fp:
+				package_list = json.loads(fp.read())
+		except:
+			print('Please run: alps updatescripts before running an update.')
+		to_be_updated = list()
+		for pkg in package_list:
+				if pkg['status'] == True and not pkg['available_version'] == pkg['version']:
+					to_be_updated.append(pkg['name'])
 
-	print('The following packages would be updated: ' + ' '.join(to_be_updated))
-	response = console.prompt_choice('Are you sure you want to install these packages?', ['y', 'n'], 'y')
-	if response == 'y':
-		for pkg in to_be_updated:
-			begin_install(script_path(pkg, config))
-			execute_cmd(script_path(pkg, config).split())
+		print('The following packages would be updated: ' + ' '.join(to_be_updated))
+		response = console.prompt_choice('Are you sure you want to install these packages?', ['y', 'n'], 'y')
+		if response == 'y':
+			for pkg in to_be_updated:
+				begin_install(script_path(pkg, config))
+				execute_cmd(script_path(pkg, config).split())
+	except KeyboardInterrupt:
+		abnormal_exit()
 
 def set_repo_version(config, version):
 	config['REPO_VERSION'] = version
