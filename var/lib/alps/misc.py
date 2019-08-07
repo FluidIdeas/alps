@@ -65,6 +65,7 @@ Commands:
         urlinstall      Try to install the package, given the URL to the source tarball
         selfupdate      Update alps
         updatescripts   Update buildscripts
+        listinstalled   List the packages that are installed with version and date/time of installation
 
 Examples:
        alps install rhythmbox vlc
