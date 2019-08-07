@@ -13,7 +13,7 @@ def load_config(config_filename):
 	return config
 
 def dump_config(config, config_filename):
-	with open(config_filename) as f:
+	with open(config_filename, 'w') as f:
 		for key, value in config.items():
 			f.write(key + '=' + value + '\n')
 
