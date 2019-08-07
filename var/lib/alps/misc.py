@@ -68,7 +68,7 @@ Commands:
 	updatescripts	Update buildscripts
 
 Examples:
-	alps install wget
+	alps install rhythmbox vlc
 	alps update curl
 	alps srcinstall /home/foo/baz.tar.bz2
 	alps urlinstall http://foo.com/baz.tar.gz
