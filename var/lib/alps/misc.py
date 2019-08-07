@@ -51,3 +51,24 @@ def execute_cmd(cmd):
 		print('Error occured in the execution of ' + (' ').join(cmd))
 		abnormal_exit()
 
+def print_help():
+	print('''alps 2.0, The package management tool for AryaLinux.
+Usage: alps [flags...] <command> [package]... [source_tarball_path] [source_url]
+Flags:
+	-ni		No Interactive. Do not ask for confirmation before performing action
+	--help		Display this help
+Commands:
+	install		Install packages alongwith dependencies
+	update		Update packages
+	srcinstall	Try to install the package, given the path to source tarball
+	urlinstall	Try to install the package, given the URL to the source tarball
+	selfupdate	Update alps
+	updatescripts	Update buildscripts
+Examples:
+	alps install wget
+	alps update curl
+	alps srcinstall /home/foo/baz.tar.bz2
+	alps urlinstall http://foo.com/baz.tar.gz
+	alps selfupdate
+	alps updatescripts
+''')

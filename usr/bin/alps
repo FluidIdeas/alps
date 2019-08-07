@@ -22,6 +22,9 @@ try:
 
 	params_and_opts = misc.params_and_opts(sys.argv)
 
+	if sys.argv[1] == '--help':
+		misc.print_help()
+
 	cmd = params_and_opts[0][1]
 	operations.run_cmd(cmd, params_and_opts, config)
 except KeyboardInterrupt:
