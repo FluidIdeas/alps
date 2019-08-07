@@ -51,6 +51,26 @@ def execute_cmd(cmd):
 		print('Error occured in the execution of ' + (' ').join(cmd))
 		abnormal_exit()
 
+def read_versions(config):
+	version_list_path = config['VERSION_LIST']
+	with open(version_list_path) as fp:
+		lines = fp.readlines()
+	versions = dict()
+	for line in lines:
+		parts = line.split(':')
+		versions[parts[0]] = parts[1]
+	return versions
+
+def get_installed_version(config, package_name):
+	versions = read_versions(config)
+	if package_name in versions:
+		return versions[package_name]
+	else:
+		return None
+
+def get_available_version(config, package_name):
+	
+
 def print_help(config):
 	print('alps 2.0, The package management tool for AryaLinux.\nRepository version: ' + config['REPO_VERSION'] + '\n' +
 '''Usage: alps [flags...] <command> [package]... [source_tarball_path] [source_url]

@@ -8,6 +8,7 @@ import subprocess
 from misc import script_path
 from misc import abnormal_exit
 from misc import execute_cmd
+from misc import read_versions
 import shlex
 import deps
 import console
@@ -213,11 +214,48 @@ def url_install(url):
 	process.communicate()
 	process.wait()
 
-def update(packages):
-	pass
+def update(config, packages):
+	# To update check what is the installed version
+	# And what is the available version
+	# If they do not match then do installation.
+	try:
+		with open(config['PACKAGE_LIST']) as fp:
+			package_list = json.loads(fp.read())
+	except:
+		print('Please run: alps updatescripts before running an update.')
+	to_be_updated = list()
+	for package in packages:
+		for pkg in package_list:
+			if pkg['name'] = package and pkg['status'] = True and not pkg['available_version'] = pkg['version']:
+				to_be_updated.append(package)
 
-def update_all():
-	pass
+	print('The following packages would be updated: ' + ' '.join(to_be_updated))
+	response = console.prompt_choice('Are you sure you want to install these packages?', ['y', 'n'], 'y')
+	if response == 'y':
+		for pkg in to_be_updated:
+			begin_install(script_path(pkg, config))
+			execute_cmd(script_path(pkg, config).split())
+
+def update_all(config):
+	# To update check what is the installed version
+	# And what is the available version
+	# If they do not match then do installation.
+	try:
+		with open(config['PACKAGE_LIST']) as fp:
+			package_list = json.loads(fp.read())
+	except:
+		print('Please run: alps updatescripts before running an update.')
+	to_be_updated = list()
+	for pkg in package_list:
+			if pkg['status'] = True and not pkg['available_version'] = pkg['version']:
+				to_be_updated.append(package)
+
+	print('The following packages would be updated: ' + ' '.join(to_be_updated))
+	response = console.prompt_choice('Are you sure you want to install these packages?', ['y', 'n'], 'y')
+	if response == 'y':
+		for pkg in to_be_updated:
+			begin_install(script_path(pkg, config))
+			execute_cmd(script_path(pkg, config).split())
 
 def set_repo_version(config, version):
 	config['REPO_VERSION'] = version
@@ -243,9 +281,9 @@ def run_cmd(cmd, params_and_opts, config):
 	elif cmd == 'srcinstall':
 		src_install(params_and_opts[0][2:])
 	elif cmd == 'update':
-		update(params_and_opts[0][2:])
+		update(config, params_and_opts[0][2:])
 	elif cmd == 'updateall':
-		update_all()
+		update_all(config)
 	elif cmd == 'repoversion':
 		if len(params_and_opts[0]) <= 2:
 			print_repo_version(config)
