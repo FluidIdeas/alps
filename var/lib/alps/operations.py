@@ -200,6 +200,16 @@ def parse_package(package_file):
 	package['status'] = False
 	return package
 
+def src_install(src_path):
+	process = subprocess.Popen(['/var/lib/alps/srcinstall.sh', src_path], shell=True)
+	process.communicate()
+	process.wait()
+
+def url_install(url):
+	process = subprocess.Popen(['/var/lib/alps/urlinstall.sh', src_path], shell=True)
+	process.communicate()
+	process.wait()
+
 def run_cmd(cmd, params_and_opts, config):
 	if cmd == 'install':
 		if len(params_and_opts[0]) < 3:
@@ -212,5 +222,8 @@ def run_cmd(cmd, params_and_opts, config):
 		self_update(config)
 	elif cmd == 'listinstalled':
 		list_installed(config)
-
+	elif cmd == 'urlinstall':
+		url_install(params_and_opts[0][2:])
+	elif cmd == 'srcinstall':
+		src_install(params_and_opts[0][2:])
 

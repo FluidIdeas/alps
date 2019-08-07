@@ -9,7 +9,7 @@ TARBALL=$(echo $URL | rev | cut -d/ -f1 | rev)
 
 cd $SOURCE_DIR
 
-cp -rvf $URL .
+wget -c $URL -O $TARBALL
 if echo $TARBALL | grep "zip$" &> /dev/null; then
 	DIR_COUNT=$(unzip -l website.zip | tr -s ' ' | head --lines=-2 | tail --lines=+4 | rev | cut -d ' ' -f1 | rev | cut -d/ -f1 | uniq | wc -l)
 	if [ $DIR_COUNT -eq 1 ]; then
