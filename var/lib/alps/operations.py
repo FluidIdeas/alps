@@ -226,6 +226,8 @@ def run_cmd(cmd, params_and_opts, config):
 		url_install(params_and_opts[0][2:])
 	elif cmd == 'srcinstall':
 		src_install(params_and_opts[0][2:])
+	elif cmd == 'help':
+		misc.print_help()
 	else:
 		print('Unrecognized command: ' + cmd)
 		misc.print_help()

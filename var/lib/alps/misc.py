@@ -60,6 +60,7 @@ Flags:
         --help                             Display this help
 
 Commands:
+        help            Print this help message
         install         Install packages alongwith dependencies
         srcinstall      Try to install the package, given the path to source tarball
         urlinstall      Try to install the package, given the URL to the source tarball
