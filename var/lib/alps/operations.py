@@ -228,7 +228,7 @@ def update(config, packages):
 			if pkg['name'] in packages and pkg['status'] == True and not pkg['available_version'] == pkg['version']:
 				to_be_updated.append(pkg['name'])
 
-		print('The following packages would be updated: ' + ' '.join(to_be_updated))
+		print('The following packages would be updated:\n\t' + ' '.join(to_be_updated))
 		response = console.prompt_choice('Are you sure you want to install these packages?', ['y', 'n'], 'y')
 		if response == 'y':
 			for pkg in to_be_updated:
@@ -252,7 +252,7 @@ def update_all(config):
 				if pkg['status'] == True and not pkg['available_version'] == pkg['version']:
 					to_be_updated.append(pkg['name'])
 
-		print('The following packages would be updated: ' + ' '.join(to_be_updated))
+		print('The following packages would be updated:\n\t' + ' '.join(to_be_updated))
 		response = console.prompt_choice('Are you sure you want to install these packages?', ['y', 'n'], 'y')
 		if response == 'y':
 			for pkg in to_be_updated:
