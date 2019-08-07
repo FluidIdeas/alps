@@ -26,6 +26,9 @@ try:
 		misc.print_help()
 		exit()
 
+	if len(params_and_opts[0]) < 2:
+		misc.print_help()
+		exit()
 	cmd = params_and_opts[0][1]
 	operations.run_cmd(cmd, params_and_opts, config)
 except KeyboardInterrupt:
