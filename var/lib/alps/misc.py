@@ -51,9 +51,9 @@ def execute_cmd(cmd):
 		print('Error occured in the execution of ' + (' ').join(cmd))
 		abnormal_exit()
 
-def print_help():
-	print('''alps 2.0, The package management tool for AryaLinux.
-Usage: alps [flags...] <command> [package]... [source_tarball_path] [source_url]
+def print_help(config):
+	print('alps 2.0, The package management tool for AryaLinux.\nRepository version: ' + config['REPO_VERSION'] + '\n' +
+'''Usage: alps [flags...] <command> [package]... [source_tarball_path] [source_url]
 
 Flags:
         -ni        --no-interactive        No Interactive. Do not ask for confirmation before performing action

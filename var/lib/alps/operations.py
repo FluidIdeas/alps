@@ -223,6 +223,9 @@ def set_repo_version(config, version):
 	config['REPO_VERSION'] = version
 	dump_config(config, config_path)
 
+def print_repo_version(config):
+	print(config['REPO_VERSION'])
+
 def run_cmd(cmd, params_and_opts, config):
 	if cmd == 'install':
 		if len(params_and_opts[0]) < 3:
@@ -244,9 +247,12 @@ def run_cmd(cmd, params_and_opts, config):
 	elif cmd == 'updateall':
 		update_all()
 	elif cmd == 'repoversion':
-		set_repo_version(config, params_and_opts[0][2])
+		if len(params_and_opts[0]) <= 2:
+			print_repo_version(config)
+		else:
+			set_repo_version(config, params_and_opts[0][2])
 	elif cmd == 'help':
-		misc.print_help()
+		misc.print_help(config)
 	else:
 		print('Unrecognized command: ' + cmd)
 		misc.print_help()

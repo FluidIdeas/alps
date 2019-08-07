@@ -23,11 +23,11 @@ try:
 	params_and_opts = misc.params_and_opts(sys.argv)
 
 	if sys.argv[1] == '--help':
-		misc.print_help()
+		misc.print_help(config)
 		exit()
 
 	if len(params_and_opts[0]) < 2:
-		misc.print_help()
+		misc.print_help(config)
 		exit()
 	cmd = params_and_opts[0][1]
 	operations.run_cmd(cmd, params_and_opts, config)
