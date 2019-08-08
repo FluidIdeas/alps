@@ -22,7 +22,7 @@ try:
 
 	params_and_opts = misc.params_and_opts(sys.argv)
 
-	if sys.argv[1] == '--help':
+	if len(sys.argv) < 2 or sys.argv[1] == '--help':
 		misc.print_help(config)
 		exit()
 
