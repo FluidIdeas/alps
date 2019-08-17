@@ -25,7 +25,8 @@ sudo chmod a+x $SCRIPTSDIR/*
 # Downloading binary scripts
 
 rm -rf master.tar.bz2
-wget https://bitbucket.org/chandrakantsingh/binary-app-installer/get/master.tar.bz2
+echo "Fetching latest binary scripts..."
+wget -q https://bitbucket.org/chandrakantsingh/binary-app-installer/get/master.tar.bz2
 sudo tar -xf master.tar.bz2 -C /
 
 popd &> /dev/null
