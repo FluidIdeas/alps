@@ -30,7 +30,7 @@ tmpdir=$(mktemp -d)
 pushd $tmpdir &> /dev/null
 wget -q https://bitbucket.org/chandrakantsingh/binary-app-installer/get/master.tar.bz2
 dir=$(tar tf master.tar.bz2 | cut -d/ -f1 | uniq)
-sudo tar -xf master.tar.bz2
+tar -xf master.tar.bz2
 cd $dir
 sudo cp -prf * /
 cd ..
