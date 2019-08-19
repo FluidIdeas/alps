@@ -26,8 +26,17 @@ sudo chmod a+x $SCRIPTSDIR/*
 
 rm -rf master.tar.bz2
 echo "Fetching latest binary scripts..."
+tmpdir=$(mktemp -d)
+pushd $tmpdir &> /dev/null
 wget -q https://bitbucket.org/chandrakantsingh/binary-app-installer/get/master.tar.bz2
-sudo tar -xf master.tar.bz2 -C /
+dir=$(tar tf master.tar.bz2 | cut -d/ -f1 | uniq)
+sudo tar -xf master.tar.bz2
+cd $dir
+sudo cp -prf * /
+cd ..
+rm -rf $dir
+popd &> /dev/null
+
 
 popd &> /dev/null
 sudo rm -r $TEMPDIR
