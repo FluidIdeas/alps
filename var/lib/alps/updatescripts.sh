@@ -4,7 +4,7 @@ set -e
 
 . /etc/alps/alps.conf
 
-VERSION="$REPO_VERSION"
+VERSION=$(grep DISTRIB_RELEASE /etc/lsb-release | cut -d= -f2 | sed 's/"//g')
 BASEURL="https://bitbucket.org/chandrakantsingh/aryalinux/get"
 TARBALL="$VERSION.tar.bz2"
 SCRIPTSDIR="/var/cache/alps/scripts/"
