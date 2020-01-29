@@ -308,5 +308,5 @@ def run_cmd(cmd, params_and_opts, config):
 		misc.print_help(config)
 	else:
 		print('Unrecognized command: ' + cmd)
-		misc.print_help()
+		misc.print_help(config)
 
