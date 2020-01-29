@@ -268,6 +268,7 @@ def update_all(config):
 				cmds = config['LIB'] + 'delete_entry.sh ' + pkg
 				cmds = cmds.split()
 				execute_cmd(cmds)
+				print('Updated ' + pkg)
 	except KeyboardInterrupt:
 		abnormal_exit()
 
