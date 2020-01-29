@@ -272,6 +272,11 @@ def set_repo_version(config, version):
 def print_repo_version(config):
 	print(config['REPO_VERSION'])
 
+def clear(config):
+	process = subprocess.Popen(config['LIB'] + 'clear.sh', shell=True)
+	process.communicate()
+	process.wait()
+
 def run_cmd(cmd, params_and_opts, config):
 	if cmd == 'install':
 		if len(params_and_opts[0]) < 3:
@@ -292,6 +297,8 @@ def run_cmd(cmd, params_and_opts, config):
 		update(config, params_and_opts[0][2:])
 	elif cmd == 'updateall':
 		update_all(config)
+	elif cmd == 'updateall':
+		clear(config)
 	elif cmd == 'repoversion':
 		if len(params_and_opts[0]) <= 2:
 			print_repo_version(config)

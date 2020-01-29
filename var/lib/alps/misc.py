@@ -60,15 +60,18 @@ Flags:
         --help                             Display this help
 
 Commands:
+		clear			Clean up the source directory
         help            Print this help message
         install         Install packages alongwith dependencies
-        srcinstall      Try to install the package, given the path to source tarball
-        urlinstall      Try to install the package, given the URL to the source tarball
-        selfupdate      Update alps
-        updatescripts   Update buildscripts
         listinstalled   List the packages that are installed with version and date/time of installation
         repoversion     Set the version of repository from where scripts would be downloaded
                         By default the latest version of repository is used
+        srcinstall      Try to install the package, given the path to source tarball
+        selfupdate      Update alps
+		update			Update single package
+		updateall		Update all packages that needs update
+        updatescripts   Update buildscripts
+        urlinstall      Try to install the package, given the URL to the source tarball
 
 Examples:
        alps install rhythmbox vlc
@@ -76,4 +79,6 @@ Examples:
        alps urlinstall http://foo.com/baz.tar.gz
        alps selfupdate
        alps updatescripts
-       alps repoversion 2.0''')
+       alps repoversion 2.0
+	   alps updateall
+	   alps update gedit''')
