@@ -298,14 +298,14 @@ def run_cmd(cmd, params_and_opts, config):
 	elif cmd == 'updateall':
 		update_all(config)
 	elif cmd == 'updateall':
-		clear(config)
+		clear()
 	elif cmd == 'repoversion':
 		if len(params_and_opts[0]) <= 2:
 			print_repo_version(config)
 		else:
 			set_repo_version(config, params_and_opts[0][2])
 	elif cmd == 'help':
-		misc.print_help()
+		misc.print_help(config)
 	else:
 		print('Unrecognized command: ' + cmd)
 		misc.print_help()
