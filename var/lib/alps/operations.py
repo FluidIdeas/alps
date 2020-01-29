@@ -297,7 +297,7 @@ def run_cmd(cmd, params_and_opts, config):
 		update(config, params_and_opts[0][2:])
 	elif cmd == 'updateall':
 		update_all(config)
-	elif cmd == 'updateall':
+	elif cmd == 'clear':
 		clear()
 	elif cmd == 'repoversion':
 		if len(params_and_opts[0]) <= 2:
