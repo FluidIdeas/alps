@@ -237,9 +237,6 @@ def update(config, packages):
 			for pkg in to_be_updated:
 				begin_install(script_path(pkg, config))
 				execute_cmd(script_path(pkg, config).split())
-				cmds = config['LIB'] + 'delete_entry.sh ' + pkg
-				cmds = cmds.split()
-				execute_cmd(cmds)
 	except KeyboardInterrupt:
 		abnormal_exit()
 
@@ -265,10 +262,6 @@ def update_all(config):
 			for pkg in to_be_updated:
 				begin_install(script_path(pkg, config))
 				execute_cmd(script_path(pkg, config).split())
-				cmds = config['LIB'] + 'delete_entry.sh ' + pkg
-				cmds = cmds.split()
-				execute_cmd(cmds)
-				print('Updated ' + pkg)
 	except KeyboardInterrupt:
 		abnormal_exit()
 
