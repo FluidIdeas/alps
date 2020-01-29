@@ -305,7 +305,7 @@ def run_cmd(cmd, params_and_opts, config):
 		else:
 			set_repo_version(config, params_and_opts[0][2])
 	elif cmd == 'help':
-		misc.print_help(config)
+		misc.print_help()
 	else:
 		print('Unrecognized command: ' + cmd)
 		misc.print_help()
