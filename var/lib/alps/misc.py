@@ -45,6 +45,7 @@ def params_and_opts(cmdline_args):
 
 def execute_cmd(cmd):
 	p = subprocess.Popen(cmd, shell=True)
+	ControllerThread(p).start()
 	p.communicate()
 	return_code = p.wait()
 	if return_code != 0:
