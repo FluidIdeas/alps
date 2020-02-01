@@ -8,7 +8,7 @@ class ControllerThread:
 
     def check_and_terminate(self):
         while self.process.poll() == None:
-            if os.exists('/tmp/alps-run'):
+            if os.path.exists('/tmp/alps-run'):
                 with open('/tmp/alps-run') as fp:
                     action = fp.read().strip()
                 if action == 'TERM':
