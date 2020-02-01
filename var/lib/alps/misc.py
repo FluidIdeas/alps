@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import subprocess
+from controllerthread import ControllerThread
 
 def script_path(script_name, config):
 	return config['SCRIPTS_DIR'] + '/' + script_name + '.sh'
