@@ -92,6 +92,16 @@ def list_installed(config):
 	print('\n'.join(pkg_names))
 	print()
 
+def sort_updates(config, updateable):
+	dep_list = list()
+	for p in updateable:
+		dep_list.extend(deps.all_deps(p, config))
+	final_list = list()
+	for dep in dep_list:
+		if dep not in final_list and dep in updateable:
+			final_list.append(dep)
+	return final_list
+
 def get_updates(config):
 	updateable = list()
 	with open(config['VERSION_LIST']) as f:
@@ -105,7 +115,7 @@ def get_updates(config):
 			continue
 		if available_version > version or available_version == 'current':
 			updateable.append(script_name)
-	return updateable
+	return sort_updates(config, updateable)
 
 def script_version(script_name, config):
 	if not os.path.exists(script_path(script_name, config)):
