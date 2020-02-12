@@ -97,15 +97,19 @@ def get_updates(config):
 	with open(config['VERSION_LIST']) as f:
 		installed_versions = f.readlines()
 	for installed_version in installed_versions:
-		parts = line.split(':')
+		parts = installed_version.split(':')
 		script_name = parts[0]
-		version = parts[1]
-		available_version = script_version(script_name)
+		version = parts[1].strip()
+		available_version = script_version(script_name, config)
+		if available_version == None:
+			continue
 		if available_version > version:
 			updateable.append(script_name)
 	return updateable
 
-def script_version(script_name):
+def script_version(script_name, config):
+	if not os.path.exists(script_path(script_name, config)):
+		return None
 	with open(script_path(script_name, config)) as f:
 		for line in f:
 			if line.startswith('VERSION='):
@@ -215,28 +219,63 @@ def url_install(config, urls):
 		process.communicate()
 		process.wait()
 
+def remove_duplicate_entries(config):
+	with open(config['INSTALLED_LIST']) as fp:
+		installed_lines = fp.readlines()
+	installed = dict()
+	for line in installed_lines:
+		parts = line.split('=')
+		installed[parts[0]] = parts[1][1:].strip()
+	with open('/tmp/installed-list', 'w') as fp:
+		for name, time in installed.items():
+			fp.write(name + '=>' + time + '\n')
+	with open(config['VERSION_LIST']) as fp:
+		version_lines = fp.readlines()
+	versions = dict()
+	for line in version_lines:
+		parts = line.split(':')
+		versions[parts[0]] = parts[1].strip()
+	with open('/tmp/versions', 'w') as fp:
+		for name, time in versions.items():
+			fp.write(name + ':' + time + '\n')
+	overwrite_package_lists(config)
+
+def overwrite_package_lists(config):
+	process = subprocess.Popen(config['LIB'] + 'overwrite_package_lists.sh', shell=True)
+	process.communicate()
+	process.wait()
+
 def update(config, packages):
 	# To update check what is the installed version
 	# And what is the available version
 	# If they do not match then do installation.
 	try:
-		try:
-			with open(config['PACKAGE_LIST']) as fp:
-				package_list = json.loads(fp.read())
-		except:
-			print('Please run: alps updatescripts before running an update.')
+		to_be_updated = get_updates(config)
+		#try:
+		#	with open(config['PACKAGE_LIST']) as fp:
+		#		package_list = json.loads(fp.read())
+		#except:
+		#	print('Please run: alps updatescripts before running an update.')
+		#	abnormal_exit()
+		#to_be_updated = list()
+		#for pkg in package_list:
+		#	if pkg['name'] in packages and pkg['status'] == True and not pkg['available_version'] == pkg['version']:
+		#		to_be_updated.append(pkg['name'])
+		#
+		update_list = list()
+		for package in packages:
+			if package in to_be_updated:
+				update_list.append(package)
+		if len(update_list) == 0:
+			print('Latest version already installed. Not updating.')
 			abnormal_exit()
-		to_be_updated = list()
-		for pkg in package_list:
-			if pkg['name'] in packages and pkg['status'] == True and not pkg['available_version'] == pkg['version']:
-				to_be_updated.append(pkg['name'])
-
-		print('The following packages would be updated:\n\t' + ' '.join(to_be_updated))
+		print('The following packages would be updated:\n\t' + ' '.join(update_list))
 		response = console.prompt_choice('Are you sure you want to install these packages?', ['y', 'n'], 'y')
 		if response == 'y':
-			for pkg in to_be_updated:
+			for pkg in update_list:
 				begin_install(script_path(pkg, config))
 				execute_cmd(script_path(pkg, config).split())
+			remove_duplicate_entries(config)
 	except KeyboardInterrupt:
 		abnormal_exit()
 
@@ -245,16 +284,16 @@ def update_all(config):
 	# And what is the available version
 	# If they do not match then do installation.
 	try:
-		try:
-			with open(config['PACKAGE_LIST']) as fp:
-				package_list = json.loads(fp.read())
-		except:
-			print('Please run: alps updatescripts before running an update.')
-			abnormal_exit()
-		to_be_updated = list()
-		for pkg in package_list:
-				if pkg['status'] == True and not pkg['available_version'] == pkg['version']:
-					to_be_updated.append(pkg['name'])
+		#try:
+		#	with open(config['PACKAGE_LIST']) as fp:
+		#		package_list = json.loads(fp.read())
+		#except:
+		#	print('Please run: alps updatescripts before running an update.')
+		#	abnormal_exit()
+		to_be_updated = get_updates(config)
+		#for pkg in package_list:
+		#		if pkg['status'] == True and not pkg['available_version'] == pkg['version']:
+		#			to_be_updated.append(pkg['name'])
 
 		print('The following packages would be updated:\n\t' + ' '.join(to_be_updated))
 		response = console.prompt_choice('Are you sure you want to install these packages?', ['y', 'n'], 'y')
@@ -262,6 +301,7 @@ def update_all(config):
 			for pkg in to_be_updated:
 				begin_install(script_path(pkg, config))
 				execute_cmd(script_path(pkg, config).split())
+			remove_duplicate_entries(config)
 	except KeyboardInterrupt:
 		abnormal_exit()
 
