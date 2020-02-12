@@ -103,7 +103,7 @@ def get_updates(config):
 		available_version = script_version(script_name, config)
 		if available_version == None:
 			continue
-		if available_version > version:
+		if available_version > version or available_version == 'current':
 			updateable.append(script_name)
 	return updateable
 
