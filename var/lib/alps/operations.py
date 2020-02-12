@@ -275,7 +275,7 @@ def update(config, packages):
 			for pkg in update_list:
 				begin_install(script_path(pkg, config))
 				execute_cmd(script_path(pkg, config).split())
-			remove_duplicate_entries(config)
+				remove_duplicate_entries(config)
 	except KeyboardInterrupt:
 		abnormal_exit()
 
@@ -301,7 +301,7 @@ def update_all(config):
 			for pkg in to_be_updated:
 				begin_install(script_path(pkg, config))
 				execute_cmd(script_path(pkg, config).split())
-			remove_duplicate_entries(config)
+				remove_duplicate_entries(config)
 	except KeyboardInterrupt:
 		abnormal_exit()
 
