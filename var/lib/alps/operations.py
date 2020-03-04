@@ -185,7 +185,7 @@ def load_installed_date_and_version():
 		try:
 			name = installed_package[0:installed_package.index('=>')]
 		except:
-			print installed_package
+			print(installed_package)
 		date = installed_package[installed_package.index('=>') + 2:]
 		installed_packages[name] = date
 	for package_version in installed_versions:
